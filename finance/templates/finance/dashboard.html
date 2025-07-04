@@ -1,0 +1,201 @@
+{% extends "finance/base.html" %}
+{% load humanize %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block style %}
+<style>
+  .dashboard-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .dashboard-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 2rem;
+    color: #333;
+  }
+
+  .dashboard-header h2 {
+    font-size: 1.55rem;
+    color: #04041cc1;
+    margin-top: 2px;
+  }
+
+  .dashboard-header p {
+    font-size: 1rem;
+    color: #6b7280;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+  }
+
+  .summary-card {
+    background-color: #ffffff; 
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+  }
+
+  .summary-card h2 {
+    font-size: 1.1rem;
+    color: #4b5563;
+    margin-bottom: 10px;
+  }
+
+  .summary-card p {
+    font-size: 1.4rem;
+    color: #111827;
+    font-weight: bold;
+  }
+
+  .goals-section {
+    margin-top: 40px;
+  }
+
+  .goals-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #1f2937;
+  }
+
+  .goal-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .goal-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff; 
+    border: 1px solid #e5e7eb;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+  }
+
+  .goal-item p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+    color: #374151;
+  }
+
+  .goal-progress {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #10b981;
+  }
+
+  .goal-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .goal-delete {
+    color: red;
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+
+  .goal-delete:hover {
+    text-decoration: underline;
+  }
+
+  .add-goal-link {
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 25px;
+    background-color: #10b981;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .add-goal-link:hover {
+    background-color: #059669;
+  }
+
+  #Dashboard {
+    color: white;
+  }
+  .goal-delete {
+  color: #dc2626; 
+  font-weight: bold;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.goal-delete:hover {
+  color: #b91c1c; 
+  text-decoration: underline;
+}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Welcome to Your Finance Dashboard</h1>
+    <h2>{{ request.user|capfirst }}</h2>
+    <p>Track your income, expenses, and goals effectively.</p>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <h2>Total Income</h2>
+      <p style="color: #10b981;">₹{{ total_income|floatformat:2|intcomma }}</p>
+    </div>
+    <div class="summary-card">
+      <h2>Total Expenses</h2>
+      <p style="color: red;">₹{{ total_expense|floatformat:2|intcomma }}</p>
+    </div>
+    <div class="summary-card">
+      <h2>Net Savings</h2>
+      <p style="color: #10b981;">₹{{ net_savings|floatformat:2|intcomma }}</p>
+    </div>
+  </div>
+
+  <div class="goals-section">
+    <h2>Your Goals</h2>
+    <ul class="goal-list">
+      {% for item in goal_progress %}
+      <li class="goal-item">
+        <div>
+          <p><strong>{{ item.goal.name }}</strong></p>
+          <p>Target: ₹{{ item.goal.target_amount|floatformat:2|intcomma }}</p>
+          <p>Deadline: {{ item.goal.deadline }}</p>
+        </div>
+        <div class="goal-actions">
+          <div class="goal-progress">{{ item.progress|floatformat:2 }}%</div>
+          <a href="{% url 'goal_delete' item.goal.id %}" class="goal-delete">Delete</a>
+        </div>
+      </li>
+      {% empty %}
+      <p>You have no goals yet.</p>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <a class="add-goal-link" href="{% url 'goal_add' %}">Add New Goal</a>
+</div>
+{% endblock content %}

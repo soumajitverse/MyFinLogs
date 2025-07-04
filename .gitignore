@@ -1,0 +1,24 @@
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+
+# SQLite database
+db.sqlite3
+
+# Sensitive files
+credentials.txt
+
+# VS Code settings
+.vscode/
+
+# Migrations cache
+**/migrations/__pycache__/
+**/migrations/*.pyc
+
+# OS junk
+.DS_Store
+Thumbs.db

@@ -1,0 +1,184 @@
+{% extends "finance/base.html" %} {% block title %}Register{% endblock title %}
+{% block style %}
+<style>
+  .register-container {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .register-container h1 {
+    text-align: center;
+    font-size: 1.75rem;
+    color: #4b5563;
+    margin-bottom: 25px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  label {
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 5px;
+    display: inline-block;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f9fafb;
+    transition: border-color 0.3s;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: #6366f1;
+    background-color: #ffffff;
+  }
+
+  .error-text {
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-top: 5px;
+  }
+
+  button[type="submit"] {
+    background-color: #10b981;
+    color: white;
+    padding: 12px;
+    margin-left: 115px;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #059669;
+  }
+
+  .login-redirect {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.95rem;
+  }
+
+  .login-redirect a {
+    color: #10b981;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  .login-redirect a:hover {
+    color: #059669;
+  }
+  #register {
+    color: white;
+  }
+</style>
+{% endblock style %} {% block content %}
+<div class="register-container">
+  <div
+    style="
+      max-width: 400px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    "
+  >
+    <h1>Create an Account</h1>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <!-- Username -->
+      <div>
+        <label for="id_username">Username</label>
+        <input
+          type="text"
+          name="username"
+          id="id_username"
+          placeholder="Enter your username"
+          required
+        />
+        {% if form.username.errors %}
+        <p class="error-text">{{ form.username.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label for="id_email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="id_email"
+          placeholder="Enter your email"
+          required
+        />
+        {% if form.email.errors %}
+        <p class="error-text">{{ form.email.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Password1 -->
+      <div>
+        <label for="id_password1">Password</label>
+        <input
+          type="password"
+          name="password1"
+          id="id_password1"
+          placeholder="Enter your password"
+          required
+        />
+        {% if form.password1.errors %}
+        <p class="error-text">{{ form.password1.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Password2 -->
+      <div>
+        <label for="id_password2">Confirm Password</label>
+        <input
+          type="password"
+          name="password2"
+          id="id_password2"
+          placeholder="Confirm your password"
+          required
+        />
+        {% if form.password2.errors %}
+        <p class="error-text">{{ form.password2.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Submit Button -->
+      <div>
+        <button type="submit">Register</button>
+      </div>
+    </form>
+
+    <!-- Login Redirect -->
+    <p class="login-redirect">
+      Already have an account?
+      <a href="{% url 'login' %}">Login here</a>
+    </p>
+  </div>
+</div>
+{% endblock content %}

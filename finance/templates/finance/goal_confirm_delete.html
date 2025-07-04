@@ -1,0 +1,83 @@
+{% extends "finance/base.html" %}
+
+{% block title %}Delete Goal{% endblock title %}
+
+{% block style %}
+<style>
+  .delete-container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+  }
+
+  .delete-container h1 {
+    font-size: 1.8rem;
+    color: #1f2937;
+    margin-bottom: 20px;
+  }
+
+  .delete-container p {
+    font-size: 1rem;
+    color: #4b5563;
+    margin-bottom: 30px;
+  }
+
+  .delete-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn-action {
+    width: 130px;
+    height: 40px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .btn-delete {
+    background-color: #dc2626;
+    color: white;
+  }
+
+  .btn-delete:hover {
+    background-color: #b91c1c;
+  }
+
+  .btn-cancel {
+    background-color: #6b7280;
+    color: white;
+  }
+
+  .btn-cancel:hover {
+    background-color: #4b5563;
+  }
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="delete-container">
+  <h1>Delete Goal</h1>
+  <p>Are you sure you want to delete the goal: <strong>{{ goal.name }}</strong>?</p>
+  <div class="delete-actions">
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn-action btn-delete">Yes, Delete</button>
+    </form>
+    <a href="{% url 'dashboard' %}" class="btn-action btn-cancel">Cancel</a>
+  </div>
+</div>
+{% endblock content %}

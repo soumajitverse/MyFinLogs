@@ -1,0 +1,174 @@
+{% extends "finance/base.html" %}
+{% block title %}Add Goal{% endblock title %}
+
+{% block style %}
+<style>
+  .goal-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .goal-form-header {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+
+  .goal-form-header h1 {
+    font-size: 1.85rem;
+    color: ##333;;
+  }
+
+  .goal-form-header p {
+    color: #6b7280;
+    font-size: 1rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  label {
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 5px;
+    display: inline-block;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f9fafb;
+    transition: border-color 0.3s;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: #6366f1;
+    background-color: #ffffff;
+  }
+
+  .error-text {
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-top: 5px;
+  }
+
+  button[type="submit"] {
+    font-weight: bold;
+    background-color: #10b981;
+    color: white;
+    padding: 12px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #059669;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #4b5563;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+  }
+
+  .back-link:hover {
+    color: #1f2937;
+  }
+  #Goal{
+    color:white;
+  }
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="goal-form-container">
+  <div class="goal-form-header">
+    <h1>Create New Goal</h1>
+    <p>Set your financial target</p>
+  </div>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- Name Field -->
+    <div>
+      <label for="name">Goal Name</label>
+      <input 
+        type="text" 
+        name="name" 
+        id="name" 
+        maxlength="100" 
+        required 
+        placeholder="e.g., New Car Fund"
+      style="color: black;
+    font-weight: 100;">
+      {% if form.name.errors %}
+        {% for error in form.name.errors %}
+          <p class="error-text">{{ error }}</p>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- Target Amount Field -->
+    <div>
+      <label for="target_amount">Target Amount (₹)</label>
+      <input 
+        type="number" 
+        name="target_amount" 
+        id="target_amount" 
+        step="0.01" 
+        min="0.01" 
+        required 
+        placeholder="5000.00"
+      >
+      {% if form.target_amount.errors %}
+        {% for error in form.target_amount.errors %}
+          <p class="error-text">{{ error }}</p>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- Deadline Field -->
+    <div>
+      <label for="deadline">Deadline</label>
+      <input 
+        type="date" 
+        name="deadline" 
+        id="deadline" 
+        required 
+        min="{% now 'Y-m-d' %}"
+      >
+      {% if form.deadline.errors %}
+        {% for error in form.deadline.errors %}
+          <p class="error-text">{{ error }}</p>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- Submit Button -->
+    <div>
+      <button type="submit">Add Goal</button>
+    </div>
+  </form>
+
+ 
+</div>
+{% endblock content %}

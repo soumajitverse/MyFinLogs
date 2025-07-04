@@ -1,0 +1,156 @@
+{% extends "finance/base.html" %}
+{% block title %}Login{% endblock title %}
+
+{% block style %}
+<style>
+  .login-container {
+    max-width: 400px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .login-container h2 {
+    font-size: 1.8rem;
+    color: #111827;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .login-container p {
+    font-size: 0.95rem;
+    color: #6b7280;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  form div {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #374151;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+  }
+
+  input:focus {
+    border-color: #6366f1;
+    outline: none;
+  }
+
+  .error {
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-top: 6px;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #10b981;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #059669;
+  }
+
+  .links {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+
+  .links a {
+    color: #10b981;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .links a:hover {
+    color: #059669;
+  }
+  #login{
+    color:white;
+  }
+</style>
+{% endblock style %}
+
+{% block content %}
+
+
+
+<div style="max-width: 400px; margin: 2rem auto; padding: 2rem; background-color: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 8px;">
+  <div class="login-container">
+  <h2>Finance Tracker</h2>
+  <p>Please sign in to your account</p>
+  
+  <!-- your login or reset password form -->
+  <!-- Form Section -->
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- Username Field -->
+    <div>
+      <label for="id_username">Username</label>
+      <input type="text" id="id_username" name="username" required>
+    </div>
+
+    <!-- Password Field -->
+    <div>
+      <label for="id_password">Password</label>
+      <input type="password" id="id_password" name="password" required>
+    </div>
+
+    <!-- Error Messages -->
+    {% if form.non_field_errors %}
+      <div class="error">
+        {% for error in form.non_field_errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Submit Button -->
+    <div>
+      <button type="submit">Sign In</button>
+    </div>
+  </form>
+</div>
+
+
+
+  
+
+  <!-- Links -->
+  <div class="links">
+    <p>
+      Don't have an account?
+      <a href="{% url 'register' %}">Register here</a>
+    </p>
+    {% comment %} <p>
+      <a href="{% url 'password_reset' %}">Forgot password?</a>
+    </p> {% endcomment %}
+  </div>
+</div>
+{% endblock content %}

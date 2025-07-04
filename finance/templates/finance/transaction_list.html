@@ -1,0 +1,154 @@
+{% extends "finance/base.html" %}
+{% load humanize %}
+
+{% block title %}Transaction{% endblock title %}
+
+{% block style %}
+<style>
+  .transaction-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .transaction-page h1 {
+    font-size: 1.85rem;
+    color: #333;;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .export-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    background-color: #10b981;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .export-link:hover {
+    background-color: #059669;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.95rem;
+  }
+
+  th, td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  th {
+    background-color: #f3f4f6;
+    color: #374151;
+    font-weight: 600;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9fafb;
+  }
+
+  tr:hover {
+    background-color: #eef2ff;
+  }
+
+  td:last-child {
+    font-weight: 500;
+  }
+
+  .credit {
+    color: #10b981;
+  }
+
+  .debit {
+    color: #ef4444;
+  }
+
+  @media (max-width: 640px) {
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+
+    thead {
+      display: none;
+    }
+
+    tr {
+      margin-bottom: 20px;
+      background-color: #f9fafb;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    td {
+      padding: 10px 0;
+      border: none;
+      position: relative;
+    }
+
+    td::before {
+      content: attr(data-label);
+      font-weight: 600;
+      color: #6b7280;
+      position: absolute;
+      left: 0;
+      top: 10px;
+    }
+  }
+
+  #Tran{
+    color:white;
+  }
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="transaction-page">
+
+  <!-- Export Link -->
+  <a class="export-link" href="{% url 'export_transactions' %}" style="margin-left: 1309px;">Generate Report</a>
+
+  <!-- Page Title -->
+  <h1>Transaction List</h1>
+
+  <!-- Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Title</th>
+        <th>Amount</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for transaction in transactions %}
+      <tr>
+        <td data-label="Date">{{ transaction.date }}</td>
+        <td data-label="Title">{{ transaction.title }}</td>
+        <td data-label="Amount">₹{{ transaction.amount|floatformat:2|intcomma }}</td>
+        <td data-label="Type">
+          {% if transaction.transaction_type == 'Income' %}
+            <span class="credit">Credit</span>
+          {% else %}
+            <span class="debit">Debit</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}
