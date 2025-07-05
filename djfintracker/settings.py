@@ -57,7 +57,7 @@ ROOT_URLCONF = 'djfintracker.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'finance' / 'templates'],  # 👈 added path to custom templates
+        'DIRS': [BASE_DIR / 'finance' / 'templates'],  # added path to custom templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
